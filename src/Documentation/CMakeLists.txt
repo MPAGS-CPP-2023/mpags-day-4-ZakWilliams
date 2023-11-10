@@ -21,7 +21,10 @@ add_custom_command(
   # i   - we modify the Doxygen configuration
   # ii  - the sources being documented change
   # iii - any auxillary inputs change
-  DEPENDS Doxyfile.in MPAGSCipher ${PROJECT_SOURCE_DIR}/README.md ${PROJECT_SOURCE_DIR}/CMakeLists.txt
+  DEPENDS Doxyfile.in 
+          MPAGSCipher 
+          ${PROJECT_SOURCE_DIR}/README.md 
+          ${PROJECT_SOURCE_DIR}/CMakeLists.txt
   # Log that the command is run
   COMMENT "Doxygenating ${PROJECT_NAME}"
   )
@@ -29,6 +32,7 @@ add_custom_command(
 # However, adding a command doesn't change anything in the build
 # system - need to create a target that depends on the output of the
 # command.
+
 add_custom_target(
   # Name of the target - e.g. in Makefiles we can run 'make doc'
   doc
@@ -36,5 +40,6 @@ add_custom_target(
   # always built when building the whole project
   ALL
   # Make it depend on the output of the custom command
+  
   DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/html/index.html"
   )
