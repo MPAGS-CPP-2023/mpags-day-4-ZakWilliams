@@ -1,5 +1,6 @@
 #include "PlayfairCipher.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -38,18 +39,35 @@ void PlayfairCipher::setKey(const std::string& key)
     //store original key
     key_priv = key;
     std::cout << key_priv << std::endl;
+
     // Append the alphabet
+    key_priv += "ABCEDFGHIJKLMNOPQRSTUVWXYZ";
 
     // Make sure the key is upper case
+    std::transform(key_priv.begin(), key_priv.end(), key_priv.begin(), ::toupper);
 
     // Remove non-alpha characters
+    auto iter1 = std::remove_if(key_priv.begin(), key_priv.end(), [](char c) { return !std::isalpha(c);}); // Implement 'remove_if'
+    key_priv.erase(iter1,key_priv.end()); // Actually remove
 
-    // Change J -> I
+    // Change J -> I, IULIUS
+    std::transform(key_priv.begin(), key_priv.end(), key_priv.begin(), [](char c) {return (c == 'J') ? 'I' : c;});
 
     // Remove duplicated letters
+    std::string used_letters{""};
+    auto dup_checker = [&](char c) {
+        if (used_letters.find(c) == std::string::npos) { //if the letter does not appear in the used_letters string, then
+            used_letters += c;//Add it to used letters string
+        } 
+        return used_letters.find(c) != std::string::npos; // returns true if a copy of the letter is found in used_letters
+    };
+
+    auto iter2 = std::remove_if(key_priv.begin(), key_priv.end(), dup_checker);
+    key_priv.erase(iter2, key_priv.end());
 
     // Store the coords of each letter
+    
 
-    // Store the playfair cihper key map
+    // Store the playfair cipher key map
 
 }
