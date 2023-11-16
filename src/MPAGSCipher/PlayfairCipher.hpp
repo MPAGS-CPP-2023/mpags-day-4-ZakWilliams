@@ -24,8 +24,8 @@ class PlayfairCipher {
                             const CipherMode cipherMode) const;
     void setKey(const std::string& key); //Declare setKey function
 
-  //private:
-  //  std::string key_priv{""};
+  private:
+    std::string key_priv{""};
 };
 
 #endif
