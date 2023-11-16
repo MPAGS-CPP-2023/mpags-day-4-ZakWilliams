@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <map>
+#include <cmath>
 
 PlayfairCipher::PlayfairCipher(const std::size_t key) : key_priv{0}
 {
@@ -66,7 +68,19 @@ void PlayfairCipher::setKey(const std::string& key)
     key_priv.erase(iter2, key_priv.end());
 
     // Store the coords of each letter
-    
+    //initialise maps - do not need to initialise as already done in .hpp - may want to shorten their names later, though
+    //std::map<char, std::pair<int,int>> char_to_coord_MAP;
+    //std::map<std::pair<int,int>, char> coord_to_char_MAP;
+    //loop over key_priv
+    for (char letter : key_priv) {
+        auto iter3 = std::find(key_priv.begin(),key_priv.end(),letter);
+        int position = static_cast<int>(std::distance(key_priv.begin(), iter3));
+        int row_n = floor(position / 5);
+        int col_n = position % 5;
+        //Add to maps
+        char_to_coord_MAP[letter] = std::make_pair(row_n,col_n);
+        coord_to_char_MAP[std::make_pair(row_n,col_n)] = letter;
+    }
 
     // Store the playfair cipher key map
 
